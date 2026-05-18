@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PST Live Clock</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .clock-container {
+            text-align: center;
+        }
+        
+        .clock {
+            font-size: 120px;
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 10px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+        
+        .date {
+            font-size: 36px;
+            color: #ffffff;
+            margin-top: 20px;
+            letter-spacing: 2px;
+        }
+        
+        .timezone {
+            font-size: 24px;
+            color: #cccccc;
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="clock-container">
+        <div class="clock" id="clock">00:00:00</div>
+        <div class="date" id="date">Monday, January 01, 2026</div>
+        <div class="timezone">Pacific Standard Time (PST/PDT)</div>
+    </div>
+
+    <script>
+        function updateClock() {
+            // Create a date object in PST timezone
+            const now = new Date();
+            const pstTime = new Date(now.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }));
+            
+            // Format time as HH:MM:SS
+            const hours = String(pstTime.getHours()).padStart(2, '0');
+            const minutes = String(pstTime.getMinutes()).padStart(2, '0');
+            const seconds = String(pstTime.getSeconds()).padStart(2, '0');
+            
+            // Update clock display
+            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+            
+            // Format and update date
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateString = pstTime.toLocaleDateString('en-US', options);
+            document.getElementById('date').textContent = dateString;
+        }
+        
+        // Update clock immediately
+        updateClock();
+        
+        // Update clock every second
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+</html>
